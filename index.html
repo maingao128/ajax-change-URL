@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ajax</title>
+	<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="js/jQuery Mockjax.min.js"></script>
+</head>
+<body>
+	<div id="mybox"></div>我是谁
+	<a href="hs.php?myajax" class="mybutton"><input type="button" value="提交" ></a>
+	<a href="hs.php?myajax1" class="mybutton"><input type="button" value="提交1" ></a>
+	<a href="hs.php?myajax2" class="mybutton"><input type="button" value="提交2" ></a>
+	<script type="text/javascript">
+	var myname="gaohao";
+	
+function myajax(){
+	var youurl=location.href.split('?')[1];
+
+	if (typeof youurl=='undefined'){
+		youurl="myajax";
+		alert(youurl);
+	}
+	var data={
+		'myname':myname,
+	}
+	$.mockjax({
+		url:'/mydemo/benm.action',
+		responseText:{
+			result:"myname",
+			src1:'big3.jpg',
+			src2:'s1.jpg',
+			src3:'ff8080814ddd2bb8014de7da2b630151.jpg'
+		},		
+	});
+	var state = {
+    title:"ajax",
+    url:'file:///Users/gaohao/Desktop/front/ajax/index.html',
+};
+	$.ajax({
+		url:'/mydemo/benm.action',
+		type:'GET',
+		data:data,
+		success:function(response){
+			$('#mybox').html(response.result);
+			var myimg=$('<img>')
+			$('#mybox').append(myimg);
+			if(youurl=='myajax'){
+			myimg.attr('src',response.src1);
+			}else if(youurl=='myajax1'){
+				myimg.attr('src',response.src2);
+			}else if(youurl=='myajax2'){
+				myimg.attr('src',response.src3);
+			}
+			
+			
+			
+		}
+	})
+    //window.location.href='file:///Users/gaohao/Desktop/mywheel.html';
+	window.history.replaceState(state, document.title, location.href.split('?')[0] + "?"+youurl); 
+	//window.history.pushState(state, document.title, location.href.split('?')[0] + "?"+youurl);
+	
+
+  	
+
+}
+myajax();
+
+$('.mybutton').bind('click',function(){
+
+	This=this;
+	var myurl=this.href.split("?")[1];
+	var data={
+		'myname':myname,
+	}
+	$.mockjax({
+		url:'/mydemo/benm.action',
+		responseText:{
+			result:"myname",
+			src1:'big3.jpg',
+			src2:'s1.jpg',
+			src3:'ff8080814ddd2bb8014de7da2b630151.jpg'
+		},		
+	});
+	var state = {
+    title:"ajax",
+    url:'file:///Users/gaohao/Desktop/front/ajax/index.html',
+};
+	$.ajax({
+		url:'/mydemo/benm.action',
+		type:'GET',
+		data:data,
+		success:function(response){
+			$('#mybox').html(response.result);
+			var myimg=$('<img>')
+			$('#mybox').append(myimg);
+			if(myurl=='myajax'){
+			myimg.attr('src',response.src1);
+			}else if(myurl=='myajax1'){
+				myimg.attr('src',response.src2);
+			}else if(myurl=='myajax2'){
+				myimg.attr('src',response.src3);
+			}
+			
+			
+		}
+	})
+    //window.location.href='file:///Users/gaohao/Desktop/mywheel.html';
+	//window.history.replaceState(state, document.title, location.href.split('?')[0] + "?"+ myurl); 
+	window.history.pushState(state, document.title, location.href.split('?')[0] + "?"+ myurl);
+	
+
+  	return false;
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if (history.pushState) {
+    window.addEventListener("popstate", function() {
+          myajax();                          
+    });
+    
+    myajax();
+    
+}
+	</script>
+</body>
+</html>
